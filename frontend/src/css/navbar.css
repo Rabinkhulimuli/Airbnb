@@ -1,0 +1,145 @@
+*{
+    box-sizing: border-box;
+}
+.home-l{
+    display:flex;
+    margin-right:auto;
+}
+.home-i{
+    width:40px;
+    height:40px;
+
+}.nav-flex{
+    display:flex;
+    font-weight: 900;
+    font-size:1.02em;
+    height:50px;
+}
+.o-search-c{
+    display:flex;
+    gap:15px;
+    padding:5px;
+    border-radius:12px;
+    justify-content: center;
+    align-items: center;
+   margin-top:5px;
+    margin-left:auto;
+    margin-right:auto;
+    height:45px;
+    box-shadow: 2px 0px 2px 2px rgb(219, 203, 182);
+}
+.search-c:first-child,.search-c:nth-child(2),.search-c:nth-child(3){
+   border-right:2px solid;
+   padding:10px;
+}
+.search-c{
+    margin:0;
+    cursor: pointer;
+}
+.home-i-i{
+    width:40px;
+    border-radius: 50%;
+    padding:0;
+    margin:0;
+}
+.home-i-b{
+    margin:5px;
+    padding:0;
+    border-radius: 50%;
+    border:white;
+    cursor: pointer;
+}
+.user-png{
+    width:25px;
+    margin:10px 5px;
+    padding:0;
+    display:block;
+}
+.user-png-m{
+    box-shadow: 2px 0px 2px 2px rgb(206, 179, 179);
+    border-radius: 12px;
+    margin-left:auto;
+    padding:0;
+    margin-top:5px;
+    height:45px;
+    display:flex;
+    flex-direction: row;
+    gap:2px;
+}
+.user-profile{
+    margin:10px 5px;
+    font-size: 1.1em;
+}
+/* Accounts */
+.account-h{
+    width:100%;
+    margin-top:10px;
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.account-l{
+    display:inline-flex;
+    padding:15px 10px;
+    flex-direction: row;
+    margin:20px 10px;
+    border-radius: 50px;
+    background-color: rgba(26, 24, 25, 0.836);
+    box-shadow: 1.5px 0px 2px 2px rgb(37, 22, 32);
+    font-size: 1.2em;
+    font-weight: 900;
+    color:antiquewhite
+}
+
+.account-l:active{
+    box-shadow: 1.5px 0px 2px 2px rgb(43, 2, 27);
+}
+.log-out{
+    width:100%;
+    padding:10px;
+    background-color: crimson;
+    border:none;
+    border-radius: 12px;
+    font-size: 1.2em;
+    font-weight: 900;
+    color:beige;
+}
+.profile-png{
+    width:30px;
+    height:22px;
+    display:inline-block;
+   padding-right:5px;
+}
+/* ACCOMODATION */
+.new-place{
+    padding:15px 30px;
+    background-color: crimson;
+    border:none;
+    font-size: 1.2em;
+    font-weight: 900;
+    color:beige;
+    border-radius: 50px;
+    cursor:pointer;
+}
+.new-p-b{
+    width:100%;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+   
+}
+.input-place{
+    width:90%;
+    margin:0px 20px;
+    padding:10px;
+}
+.button-g{
+    padding:20px;
+    margin:5px;
+    font-size: 2rem;
+}
+.textarea{
+    width:100%;
+    height:200px;
+}
