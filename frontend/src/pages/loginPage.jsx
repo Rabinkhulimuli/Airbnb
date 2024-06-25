@@ -17,7 +17,7 @@ export default function Login() {
       setUser(data);
       setRedirect(true);
     } catch (err) {
-      console.log("error loggin ");
+      console.log( err);
     }
   };
   if (redirect) {

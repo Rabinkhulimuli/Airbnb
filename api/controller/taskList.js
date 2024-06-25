@@ -1,9 +1,10 @@
 const User = require("../model/user")
 const mongoose= require("mongoose")
-
+const imageDownloader=require("image-downloader")
 const bcrypt=require("bcryptjs")
 bcryptSalt=bcrypt.genSaltSync(10)
 const jwt = require("jsonwebtoken")
+const fs=require("fs")
 const jwtSecret="dkiew84ujreue943urhsje3wmd"
 const createUser =async (req,res)=> {
     try {
@@ -48,7 +49,7 @@ const getUser= async(req,res)=> {
     }
 }
 const getProfile= async (req,res)=> {
-    const {token}= req.cookies
+        const {token}= await req.cookies
     if(token){
         jwt.verify(token,jwtSecret,{},(err,user)=> {
             if(err){
@@ -59,14 +60,47 @@ const getProfile= async (req,res)=> {
     }else{
          res.status(404).json({msg: "token invalid "})
     }
+     
+    
     
 }
 const logOut= (req,res)=> {
     return res.status(200).cookie('token'," ").json({msg:"log out successfully"})
 }
+const photoLinks=async (req,res)=> {
+    try{
+        const {Link}= req.body
+    const newName="photo" + Date.now()+ ".jpg"
+    console.log(__dirname)
+    await imageDownloader.image({
+        url:Link,
+        dest:'D:/web_intern/airbnb/api/uploads/'+ newName,
+    })
+    res.status(200).json(newName)
+    } catch(error){
+        res.json(error)
+    }
+}
+const uploadPhotos=(req,res)=> {
+    const uploadedPhoto=[]
+    const files=req.files
+    for(let i=0;i<files.length;i++){
+        const{path,originalname}=files[i]
+        const splitname= originalname.split(".")
+        const ext=splitname[splitname.length-1]
+        const newPath=path+ "."+ext
+        fs.renameSync(path,newPath)
+        uploadedPhoto.push(newPath.replace('uploads/',' '))
+        console.log(path)
+    }
+   
+    res.json(uploadedPhoto)
+}
 module.exports={
     createUser,
     getUser,
     getProfile,
-    logOut
+    logOut,
+    photoLinks,
+    uploadPhotos
 }

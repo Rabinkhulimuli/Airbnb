@@ -9,7 +9,7 @@ export default function UserContextProvider({ children }) {
     try {
       if (!user) {
         axios.get("/profile") .then((data)=> {
-            console.log(data.data.user," use effect")
+            
             setUser(data.data.user)})
             setReady(true)
       }
@@ -18,7 +18,7 @@ export default function UserContextProvider({ children }) {
     }
   }, [user]);
   return (
-    <UserContext.Provider value={{ user, setUser,ready }}>
+    <UserContext.Provider value={{ user, setUser,ready}}>
       {children}
     </UserContext.Provider>
   );

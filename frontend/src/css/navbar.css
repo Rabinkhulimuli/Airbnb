@@ -1,5 +1,6 @@
 *{
     box-sizing: border-box;
+    
 }
 .home-l{
     display:flex;
@@ -142,4 +143,36 @@
 .textarea{
     width:100%;
     height:200px;
+}
+.check-box{
+    display:grid;
+    grid-template-columns: auto auto auto;
+    gap:5px;
+}
+.label-a{
+    padding:15px;
+    cursor: pointer;
+    box-shadow: 2px 0px 2px 2px rgba(228, 169, 169, 0.733);
+}
+.check-i-o h5{
+    margin:5px;
+}
+.place-form h2{
+    margin:0px;
+    margin-top:5px;
+    padding:0;
+}
+.place-form p{
+    margin: 5px;
+}
+.place-form input{
+    display:block;
+    margin-bottom:10px;
+}
+.link-img{
+    width:200px;
+}
+.link-img-d{
+    display:flex;
+    
 }
