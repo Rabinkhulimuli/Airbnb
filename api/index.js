@@ -16,7 +16,9 @@ app.use("/uploads",express.static(__dirname+"/uploads"))
 app.use("/",task)
 const PORT = 5000
 
-
+/* app.listen(PORT,()=> {
+    console.log(`server started at localhost:${PORT} successfully`)
+}) */
 const start= async ()=> {
     try {
         await connectDB(process.env.mongoo_uri)

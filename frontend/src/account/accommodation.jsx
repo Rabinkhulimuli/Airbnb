@@ -1,25 +1,45 @@
-import { Link, useParams } from "react-router-dom";
-import { useState } from "react";
+import { Link, useParams,Navigate } from "react-router-dom";
+import { useState ,useEffect} from "react";
 import Perks from "../pages/perk";
 import axios from "axios";
+import PhotoUpload from "./photoUpload";
+import SubList from "../pages/subListPage";
 export default function Accomodation() {
-  const { action } = useParams();
+  const { action,id } = useParams();
   const [title, setTitle] = useState("");
   const [location, setLocation] = useState("");
   const [addedPhoto, setAddedPhoto] = useState([]);
-  const [photolink, setPhotolink] = useState("");
+  const [photolink, setPhotolink] = useState(' ');
   const [description, setDescription] = useState("");
   const [perk, setPerk] = useState([]);
   const [extraInfo, setExtraInfo] = useState("");
-  const [check, setCheck] = useState([]);
+  const [check, setCheck] = useState({"in":0,"outT":0,"guest":0});
+  const [redirec,setRedirect]=useState(false)
+  useEffect(()=> {
+    if(id){
+    axios.get(`/page/${id}`)
+    .then((res)=> {
+      const {data}=res
+      setTitle(data.title)
+      setLocation(data.location)
+      setAddedPhoto(data.addedPhoto)
+      setDescription(data.description)
+      setPerk(data.perk)
+      setExtraInfo(data.extraInfo)
+      setCheck({in:data.checkIn,outT:data.checkOut,guest:data.maxGuest})
+  })}
+  setRedirect(false)
+},[id])
+ 
   async function addPhotoByLinks(event) {
     event.preventDefault();
+    if(photolink !== ' '){
     const { data } = await axios.post("/uploadByLink", { Link: photolink });
-    console.log(data);
     setPhotolink(" ");
+    
     setAddedPhoto((prev) => {
       return [...prev, data];
-    });
+    });}
   }
   const preInput = (header, desc) => {
     return (
@@ -29,66 +49,67 @@ export default function Accomodation() {
       </>
     );
   };
-  const linkP = addedPhoto.map((one) => {
-    return (
-      <div key={one}>
-        <img
-          className="link-img"
-          src={`http://localhost:5000/uploads/${one}`}
-          alt={one}
-        />
-      </div>
-    );
-  });
-  const photoUpload= async (event)=> {
-    try{
-      /* const files=event.target.files
-      let formData = new FormData()
-      for(let i=0;i<files.length;i++){
-        formData.append('photos',files[i])
-      }
-      axios.post("/uploads",formData,{
-        headers:{
-          'Content-Type':"multipart/form-data"
-        }
-      }).then((res)=> {
-        const {formData:filename}= res 
-        setAddedPhoto((prev)=> {
-          return [...prev,filename]
-        })
-      }) */
-      
-        const files=event.target.files
-
-        const formData=new FormData()
-        for(let i=0;i<files.length;i++){
-          formData.append('photos',files[i])
-        }
-        const{formData:filename}= await axios.post("/uploads",formData,{
-          headers:{
-            "Content-Type":"multipart/form-data"
-          }
-        })
-        setAddedPhoto((prev)=> {
-          return [...prev,filename]
-        })
-    } catch(error){
-      console.log("error in photo uploading",error)
-    }
+const addNewPlace= async (event)=> {
+  const dataOb={
+    title,
+    location,
+    description,
+    perk,
+    extraInfo,
+    checkIn:check.in,
+    checkOut:check.outT,
+    maxGuest:check.guest,
+    addedPhoto,
   }
+  event.preventDefault()
+  try{
+    if(id){
+      await axios.put("/newPage",{
+        id,...dataOb
+      } )
+    }
+    else if(action==='new'){
+      await axios.post("/newPage",dataOb)
+    } else{
+      console.log("data is unable to be saved")
+    }
+    
+    setRedirect(true)
+  }catch(error){
+    console.log(error)
+  }
+}
+
+if (redirec){
+  console.log(redirec)
+  return <Navigate to={"/account/places"}/>
+ }
+const checkTime=(event)=> {
+  const {name,value}=event.target
+  
+  setCheck({...check, [name]: value})
+}
+
+console.log("hello")
   return (
     <>
-      <h1>This is Accomodation section</h1>
-      {action !== "new" && (
+      <div style={{width:'auto',height:'10px',backgroundColor:'transparent',margin:'5px'}} > </div>
+     
+      {(id ==undefined && action !== "new") && (
+        <div>
         <div className="new-p-b">
-          <Link to="new" className="new-place">
+          <Link to="new" className="new-place" onClick={()=> setRedirect(false)}>
             + Add New Place
           </Link>
         </div>
+        <div style={{width:'auto',height:'10px',backgroundColor:'transparent',margin:'5px'}} > </div>
+         <SubList/>
+         </div>
       )}
-      {action === "new" && (
+      
+      {(!!id || action === "new" )&& (
         <div className="place-form">
-          <form>
+          <form onSubmit={addNewPlace} >
             {preInput(
               "Title",
               "title should be short and catchy as in advertisement"
@@ -118,17 +139,12 @@ export default function Accomodation() {
               value={photolink}
               onChange={(event) => setPhotolink(event.target.value)}
             />
-            <button onClick={addPhotoByLinks}>Add Photo</button>
-            {addedPhoto.length > 0 && <div className="link-img-d">{linkP}</div>}
-            <div className="button-g-m">
-              <label className="button-g">
-                <input type="file" multiple name="photos"
-                  onChange={photoUpload}
-                />
-                <img className="profile-png" src="/cloud-arrow-up.svg" />
-                Upload
-              </label>
-            </div>
+             <button onClick={addPhotoByLinks}>Add Photo</button>
+            <PhotoUpload 
+            addedPhoto={addedPhoto}
+            setAddedPhoto={setAddedPhoto}
+            />
+            
             <div>
               {preInput("Description", "Description of the place")}
               <textarea
@@ -140,7 +156,10 @@ export default function Accomodation() {
             </div>
             <div>
               {preInput("Perk", "Sellect all the perks of your place")}
-              <Perks />
+              <Perks
+              perk={perk}
+              setPerk={setPerk}
+              />
             </div>
             <div>
               {preInput("Extra info", "house rules , etc")}
@@ -161,15 +180,15 @@ export default function Accomodation() {
               <div className="check-box">
                 <div>
                   <h5>Check In Time</h5>
-                  <input type="time" />
+                  <input value={check?.in} type="number" name="in"  onChange={checkTime} />
                 </div>
                 <div>
                   <h5>Check Out Time</h5>
-                  <input type="time" />
+                  <input type="number" value={check?.outT} name="outT" onChange={checkTime} />
                 </div>
                 <div>
                   <h5>Max Guest</h5>
-                  <input type="number" />
+                  <input value={check?.guest} name="guest" type="number" onChange={checkTime}  />
                 </div>
               </div>
             </div>

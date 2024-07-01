@@ -6,7 +6,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
-  const { setUser } = useContext(UserContext);
+  const { setUser ,user} = useContext(UserContext);
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
@@ -20,7 +20,7 @@ export default function Login() {
       console.log( err);
     }
   };
-  if (redirect) {
+  if (redirect || user) {
     return <Navigate to="/" />;
   }
   return (

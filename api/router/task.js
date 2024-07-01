@@ -5,7 +5,11 @@ const {createUser,
     getProfile,
     logOut,
     photoLinks,
-    uploadPhotos
+    uploadPhotos,
+    uploadPage,
+    getPages,
+    findPage,
+    UpdatePage
 } = require("../controller/taskList")
 const multerMiddleware= multer({dest:'uploads/'})
 const router=express.Router()
@@ -16,4 +20,6 @@ router.route("/profile").get(getProfile)
 router.route("/logout").post(logOut)
 router.route("/uploadByLink").post(photoLinks)
 router.route("/uploads").post(multerMiddleware.array('photos',10),uploadPhotos)
+router.route("/newPage").post(uploadPage).get(getPages).put(UpdatePage)
+router.route("/page/:id").get(findPage)
 module.exports=router

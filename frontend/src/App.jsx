@@ -7,8 +7,10 @@ import Register from "./pages/register";
 import axios from "axios";
 import Account from "./pages/account"
 import Profile from "./account/profile";
+import "./css/pagelist.css"
 import Accomodation from "./account/accommodation";
 import Booking from "./account/booking";
+
 import UserContextProvider from "./pages/userContext";
 axios.defaults.baseURL = "http://localhost:5000";
 axios.defaults.withCredentials = true;
@@ -27,6 +29,8 @@ function App() {
                 <Route path="booking" element={<Booking/>}/>
                 <Route path="places" element={<Accomodation/>}/>
                 <Route path="places/:action" element={<Accomodation/>}/>
+                <Route path=":id" element={<Accomodation/>
+                } />
               </Route>
               <Route path="*" element={<div>This Page doesnt exist</div>} />
             </Route>

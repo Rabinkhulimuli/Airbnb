@@ -171,8 +171,24 @@
 }
 .link-img{
     width:200px;
+    height:150px;
+    
+}
+.link-img-div{
+    width:200px;
+    height:150px;
+    position:relative;
+}
+.link-img-del{
+position:absolute;
+z-index: 1;
+bottom:0;
+right:0;
+margin:5px;
+background-color: rgb(235, 215, 215);
+
 }
 .link-img-d{
     display:flex;
-    
+    gap:5px;
 }
