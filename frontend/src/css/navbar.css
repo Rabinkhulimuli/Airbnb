@@ -188,7 +188,23 @@ margin:5px;
 background-color: rgb(235, 215, 215);
 
 }
+.link-img-del:active{
+    box-shadow:2px 0px 2px 2px red;
+    background-color: red;
+}
 .link-img-d{
     display:flex;
     gap:5px;
+}
+.link-img-m{
+    position:absolute;
+    left:0;
+    bottom:0;
+    background-color: aliceblue;
+    margin:5px;
+    padding:2px;
+}
+.link-img-m:active{
+    box-shadow:2px 0px 2px 2px red;
+    background-color: red;
 }

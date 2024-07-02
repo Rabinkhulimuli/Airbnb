@@ -1,45 +1,50 @@
-import { Link, useParams,Navigate } from "react-router-dom";
-import { useState ,useEffect} from "react";
+import { Link, useParams, Navigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import Perks from "../pages/perk";
 import axios from "axios";
 import PhotoUpload from "./photoUpload";
 import SubList from "../pages/subListPage";
 export default function Accomodation() {
-  const { action,id } = useParams();
+  const { action, id } = useParams();
   const [title, setTitle] = useState("");
   const [location, setLocation] = useState("");
   const [addedPhoto, setAddedPhoto] = useState([]);
-  const [photolink, setPhotolink] = useState(' ');
+  const [photolink, setPhotolink] = useState(" ");
   const [description, setDescription] = useState("");
   const [perk, setPerk] = useState([]);
   const [extraInfo, setExtraInfo] = useState("");
-  const [check, setCheck] = useState({"in":0,"outT":0,"guest":0});
-  const [redirec,setRedirect]=useState(false)
-  useEffect(()=> {
-    if(id){
-    axios.get(`/page/${id}`)
-    .then((res)=> {
-      const {data}=res
-      setTitle(data.title)
-      setLocation(data.location)
-      setAddedPhoto(data.addedPhoto)
-      setDescription(data.description)
-      setPerk(data.perk)
-      setExtraInfo(data.extraInfo)
-      setCheck({in:data.checkIn,outT:data.checkOut,guest:data.maxGuest})
-  })}
-  setRedirect(false)
-},[id])
- 
+  const [check, setCheck] = useState({ in: 0, outT: 0, guest: 0 });
+  const [redirec, setRedirect] = useState(false);
+  useEffect(() => {
+    if (id) {
+      axios.get(`/page/${id}`).then((res) => {
+        const { data } = res;
+        setTitle(data.title);
+        setLocation(data.location);
+        setAddedPhoto(data.addedPhoto);
+        setDescription(data.description);
+        setPerk(data.perk);
+        setExtraInfo(data.extraInfo);
+        setCheck({
+          in: data.checkIn,
+          outT: data.checkOut,
+          guest: data.maxGuest,
+        });
+      });
+    }
+    setRedirect(false);
+  }, [id]);
+
   async function addPhotoByLinks(event) {
     event.preventDefault();
-    if(photolink !== ' '){
-    const { data } = await axios.post("/uploadByLink", { Link: photolink });
-    setPhotolink(" ");
-    
-    setAddedPhoto((prev) => {
-      return [...prev, data];
-    });}
+    if (photolink !== " ") {
+      const { data } = await axios.post("/uploadByLink", { Link: photolink });
+      setPhotolink(" ");
+
+      setAddedPhoto((prev) => {
+        return [...prev, data];
+      });
+    }
   }
   const preInput = (header, desc) => {
     return (
@@ -49,67 +54,87 @@ export default function Accomodation() {
       </>
     );
   };
-const addNewPlace= async (event)=> {
-  const dataOb={
-    title,
-    location,
-    description,
-    perk,
-    extraInfo,
-    checkIn:check.in,
-    checkOut:check.outT,
-    maxGuest:check.guest,
-    addedPhoto,
-  }
-  event.preventDefault()
-  try{
-    if(id){
-      await axios.put("/newPage",{
-        id,...dataOb
-      } )
-    }
-    else if(action==='new'){
-      await axios.post("/newPage",dataOb)
-    } else{
-      console.log("data is unable to be saved")
-    }
-    
-    setRedirect(true)
-  }catch(error){
-    console.log(error)
-  }
-}
+  const addNewPlace = async (event) => {
+    const dataOb = {
+      title,
+      location,
+      description,
+      perk,
+      extraInfo,
+      checkIn: check.in,
+      checkOut: check.outT,
+      maxGuest: check.guest,
+      addedPhoto,
+    };
+    event.preventDefault();
+    try {
+      if (id) {
+        await axios.put("/newPage", {
+          id,
+          ...dataOb,
+        });
+      } else if (action === "new") {
+        await axios.post("/newPage", dataOb);
+      } else {
+        console.log("data is unable to be saved");
+      }
 
-if (redirec){
-  console.log(redirec)
-  return <Navigate to={"/account/places"}/>
- }
-const checkTime=(event)=> {
-  const {name,value}=event.target
-  
-  setCheck({...check, [name]: value})
-}
+      setRedirect(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-console.log("hello")
+  if (redirec) {
+    return <Navigate to={"/account/places"} />;
+  }
+  const checkTime = (event) => {
+    const { name, value } = event.target;
+
+    setCheck({ ...check, [name]: value });
+  };
+
   return (
     <>
-      <div style={{width:'auto',height:'10px',backgroundColor:'transparent',margin:'5px'}} > </div>
-     
-      {(id ==undefined && action !== "new") && (
+      <div
+        style={{
+          width: "auto",
+          height: "10px",
+          backgroundColor: "transparent",
+          margin: "5px",
+        }}
+      >
+        {" "}
+      </div>
+
+      {id == undefined && action !== "new" && (
         <div>
-        <div className="new-p-b">
-          <Link to="new" className="new-place" onClick={()=> setRedirect(false)}>
-            + Add New Place
-          </Link>
+          <div className="new-p-b">
+            <Link
+              to="new"
+              className="new-place"
+              onClick={() => setRedirect(false)}
+            >
+              + Add New Place
+            </Link>
+          </div>
+          <div
+            style={{
+              width: "auto",
+              height: "10px",
+              backgroundColor: "transparent",
+              margin: "5px",
+            }}
+          >
+            {" "}
+          </div>
+          <SubList />
         </div>
-        <div style={{width:'auto',height:'10px',backgroundColor:'transparent',margin:'5px'}} > </div>
-         <SubList/>
-         </div>
       )}
-      
-      {(!!id || action === "new" )&& (
+
+      {(!!id || action === "new") && (
         <div className="place-form">
-          <form onSubmit={addNewPlace} >
+          <form onSubmit={addNewPlace}>
             {preInput(
               "Title",
               "title should be short and catchy as in advertisement"
@@ -139,12 +164,12 @@ console.log("hello")
               value={photolink}
               onChange={(event) => setPhotolink(event.target.value)}
             />
-             <button onClick={addPhotoByLinks}>Add Photo</button>
-            <PhotoUpload 
-            addedPhoto={addedPhoto}
-            setAddedPhoto={setAddedPhoto}
+            <button onClick={addPhotoByLinks}>Add Photo</button>
+            <PhotoUpload
+              addedPhoto={addedPhoto}
+              setAddedPhoto={setAddedPhoto}
             />
-            
+
             <div>
               {preInput("Description", "Description of the place")}
               <textarea
@@ -156,10 +181,7 @@ console.log("hello")
             </div>
             <div>
               {preInput("Perk", "Sellect all the perks of your place")}
-              <Perks
-              perk={perk}
-              setPerk={setPerk}
-              />
+              <Perks perk={perk} setPerk={setPerk} />
             </div>
             <div>
               {preInput("Extra info", "house rules , etc")}
@@ -180,15 +202,30 @@ console.log("hello")
               <div className="check-box">
                 <div>
                   <h5>Check In Time</h5>
-                  <input value={check?.in} type="number" name="in"  onChange={checkTime} />
+                  <input
+                    value={check?.in}
+                    type="number"
+                    name="in"
+                    onChange={checkTime}
+                  />
                 </div>
                 <div>
                   <h5>Check Out Time</h5>
-                  <input type="number" value={check?.outT} name="outT" onChange={checkTime} />
+                  <input
+                    type="number"
+                    value={check?.outT}
+                    name="outT"
+                    onChange={checkTime}
+                  />
                 </div>
                 <div>
                   <h5>Max Guest</h5>
-                  <input value={check?.guest} name="guest" type="number" onChange={checkTime}  />
+                  <input
+                    value={check?.guest}
+                    name="guest"
+                    type="number"
+                    onChange={checkTime}
+                  />
                 </div>
               </div>
             </div>
