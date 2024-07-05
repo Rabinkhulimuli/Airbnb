@@ -28,12 +28,12 @@ export default function PhotoUpload({ addedPhoto, setAddedPhoto }) {
             style={{ backgroundColor: "yellow" }}
             className="link-img-m"
           >
-            <img src="/trash.svg" />{" "}
+            <img src="/star.svg" />{" "}
           </div>
         )}
         {one !== addedPhoto[0] && (
           <div onClick={() => frontPhoto({ one })} className="link-img-m">
-            <img src="/trash.svg" />{" "}
+            <img src="/star.svg" />{" "}
           </div>
         )}
       </div>

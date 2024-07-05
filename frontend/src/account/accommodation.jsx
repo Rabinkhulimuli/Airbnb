@@ -1,9 +1,14 @@
-import { Link, useParams, Navigate } from "react-router-dom";
+import { Link, useParams, Navigate,useLoaderData } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Perks from "../pages/perk";
 import axios from "axios";
 import PhotoUpload from "./photoUpload";
 import SubList from "../pages/subListPage";
+export async function loader({params}){
+  const {id}=params
+  const {data}= await axios.get(`/page/${id}`)
+  return data
+}
 export default function Accomodation() {
   const { action, id } = useParams();
   const [title, setTitle] = useState("");
@@ -13,12 +18,12 @@ export default function Accomodation() {
   const [description, setDescription] = useState("");
   const [perk, setPerk] = useState([]);
   const [extraInfo, setExtraInfo] = useState("");
-  const [check, setCheck] = useState({ in: 0, outT: 0, guest: 0 });
+  const [check, setCheck] = useState({ in: 0, outT: 0, guest: 0,price:100 });
   const [redirec, setRedirect] = useState(false);
+  const data= useLoaderData()
   useEffect(() => {
     if (id) {
-      axios.get(`/page/${id}`).then((res) => {
-        const { data } = res;
+       
         setTitle(data.title);
         setLocation(data.location);
         setAddedPhoto(data.addedPhoto);
@@ -29,11 +34,12 @@ export default function Accomodation() {
           in: data.checkIn,
           outT: data.checkOut,
           guest: data.maxGuest,
+          price:data.Price,
         });
-      });
+      
     }
     setRedirect(false);
-  }, [id]);
+  }, [id,data]);
 
   async function addPhotoByLinks(event) {
     event.preventDefault();
@@ -64,6 +70,7 @@ export default function Accomodation() {
       checkIn: check.in,
       checkOut: check.outT,
       maxGuest: check.guest,
+      Price:check.price,
       addedPhoto,
     };
     event.preventDefault();
@@ -164,7 +171,7 @@ export default function Accomodation() {
               value={photolink}
               onChange={(event) => setPhotolink(event.target.value)}
             />
-            <button onClick={addPhotoByLinks}>Add Photo</button>
+            <div className="make-btn" onClick={addPhotoByLinks}>Add Photo</div>
             <PhotoUpload
               addedPhoto={addedPhoto}
               setAddedPhoto={setAddedPhoto}
@@ -223,6 +230,15 @@ export default function Accomodation() {
                   <input
                     value={check?.guest}
                     name="guest"
+                    type="number"
+                    onChange={checkTime}
+                  />
+                </div>
+                <div>
+                  <h5>Price per room</h5>
+                  <input
+                    value={check?.price}
+                    name="price"
                     type="number"
                     onChange={checkTime}
                   />

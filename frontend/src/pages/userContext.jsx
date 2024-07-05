@@ -5,20 +5,26 @@ export const UserContext = createContext({});
 export default function UserContextProvider({ children }) {
   const [user, setUser] = useState(null);
   const [ready,setReady]= useState(false)
+  const [loggedin,setLoggedin]=useState(false)
   useEffect(() => {
     try {
-      if (!user) {
+     
+      if(loggedin && !!user){
+        setReady(true)
+      } 
+
+      else if (!user) {
         axios.get("/profile") .then((data)=> {
             
             setUser(data.data.user)})
             setReady(true)
-      }
+      } 
     } catch (err) {
       console.log("error retriving profile info");
     }
-  }, [user]);
+  }, [user,loggedin]);
   return (
-    <UserContext.Provider value={{ user, setUser,ready}}>
+    <UserContext.Provider value={{ user, setUser,ready,loggedin,setLoggedin}}>
       {children}
     </UserContext.Provider>
   );

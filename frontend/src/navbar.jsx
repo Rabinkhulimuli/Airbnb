@@ -9,17 +9,17 @@ export default function Navbar(){
         <div className="nav-flex">
           <div className="home-l">
             <Link to="/" >
-                <img className="home-i" src="/download.png" />
+                <img className="home-i" src="/house-add.svg" />
             </Link>
            
-            <h4>Mirrage</h4>
+            <h4 className="home-i-h4" >Mirrage</h4>
           </div>
           <div className="o-search-c" >
             <div className="search-c">Anywhere</div>
             <div className="search-c">Any Week</div>
             <div className="search-c">Add Guest</div>
             <button className="home-i-b" >
-              <img  className="home-i-i" src="/s-icon.jfif" /> 
+              <img  className="home-i-i" src="/search-heart.svg" /> 
             </button>
           </div>
           <div className="user-png-m" >

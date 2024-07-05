@@ -1,12 +1,13 @@
 import { useState, useContext } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate,useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "./userContext";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
-  const { setUser ,user} = useContext(UserContext);
+  const { setUser ,user,setLoggedin} = useContext(UserContext);
+  const valid=useSearchParams()
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
@@ -14,7 +15,9 @@ export default function Login() {
         email,
         password,
       });
+      setLoggedin(true)
       setUser(data);
+     
       setRedirect(true);
     } catch (err) {
       console.log( err);
@@ -26,7 +29,9 @@ export default function Login() {
   return (
     <>
       <div className="login">
+        
         <h1 className="login-h">LogIn</h1>
+        <div style={{color:'white'}} >{valid} </div>
         <form onSubmit={handleLogin}>
           <input
             className="login-i"

@@ -1,6 +1,7 @@
 const User = require("../model/user")
 const mongoose= require("mongoose")
 const PlaceModel=require("../model/place")
+const BookModel=require("../model/booking")
 const imageDownloader=require("image-downloader")
 const bcrypt=require("bcryptjs")
 bcryptSalt=bcrypt.genSaltSync(10)
@@ -107,16 +108,18 @@ const uploadPage= (req,res)=> {
         perk,
         extraInfo,
         checkIn,
-    checkOut,
-maxGuest} = req.body
-       console.log(req.body)
+        checkOut,
+        maxGuest,
+        Price
+                } = req.body
+       
             const{token}=  req.cookies
             if(token){
                 jwt.verify(token,jwtSecret,{},async (err,user)=> {
                         if(err){
                             throw err
                         }
-                        console.log(user)
+                       
                         const newPlace= await PlaceModel.create({
 
                             owner:user.id,
@@ -128,7 +131,8 @@ maxGuest} = req.body
                             extraInfo,
                             checkIn,
                             checkOut,
-                            maxGuest
+                            maxGuest,
+                            Price
                         })
                         return res.status(201).json(newPlace)
                 })
@@ -139,7 +143,7 @@ maxGuest} = req.body
                 }
        
 }
-const getPages=(req,res)=> {
+const getPages=async (req,res)=> {
     const {token}= req.cookies
     jwt.verify(token,jwtSecret,{},async (err,userData)=> {
         if(err){
@@ -149,6 +153,10 @@ const getPages=(req,res)=> {
         res.status(200).json(await PlaceModel.find({owner:id}))
 
     })
+     
+}
+const getAllPages=async(req,res)=> {
+    res.status(200).json(await PlaceModel.find())
 }
 const findPage=async(req,res)=> {
     try{
@@ -170,7 +178,8 @@ const UpdatePage=async(req,res)=> {
         extraInfo,
         checkIn,
         checkOut,
-        maxGuest
+        maxGuest,
+        Price
     } = req.body
     const {token}= await req.cookies
     jwt.verify(token,jwtSecret,{},async(err,UserData)=> {
@@ -188,13 +197,61 @@ const UpdatePage=async(req,res)=> {
                 extraInfo,
                 checkIn,
                 checkOut,
-                maxGuest
+                maxGuest,
+                Price
             })
             await page.save()
             res.status(200).json({msg:"data updated"})
         }
     })
    
+}
+const getUserDataFromToken= (req)=> {
+    return new Promise((resolve,reject)=> {
+        jwt.verify(req.cookies.token,jwtSecret,{},async(err,User)=> {
+            if(err){
+                throw err
+            }
+            resolve(User)
+        })
+    })
+}
+const createBooking=async(req,res)=>{
+    const userData= await getUserDataFromToken(req)
+    try{
+const { 
+        name,
+        phone,
+        checkIn,
+        checkOut,
+        guest,
+        place,
+        price}= await req.body
+        const newBooking=await BookModel.create({
+            user:userData.id,
+            name,
+        phone,
+        checkIn,
+        checkOut,
+        guest,
+        place,
+        price
+        })
+        res.status(201).json(newBooking)
+    }catch(err){
+        res.status(404).json(err)
+    }
+    
+}
+const getBooking= async (req,res)=> {
+    try{
+    const userData= await getUserDataFromToken(req)
+    const bookingData= await BookModel.find({user:userData.id}).populate('place')
+    res.status(200).json(bookingData)
+    } catch (err){
+        res.status(404).json(err)
+    }
+    
 }
 module.exports={
     createUser,
@@ -206,5 +263,8 @@ module.exports={
     uploadPage,
     getPages,
     findPage,
-    UpdatePage
+    UpdatePage,
+    getAllPages,
+    createBooking,
+    getBooking,
 }

@@ -3,13 +3,13 @@ import { Navigate, Link, Outlet } from "react-router-dom";
 import { UserContext } from "./userContext";
 
 export default function Account() {
-  const { user, ready ,loggedin} = useContext(UserContext);
+  const { user, ready} = useContext(UserContext);
   const [act, setAct] = useState(1);
   const styles = {
     backgroundColor: "rgb(231, 16, 124)",
     boxShadow: "1.5px 0px 2px 2px rgb(223, 103, 177)",
   };
-  if (!ready && loggedin) {
+  if (!ready ) {
     return <div>Loading ... </div>;
   }
   if (ready && !user) {
