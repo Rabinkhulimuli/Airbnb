@@ -5,8 +5,13 @@ import {  useState, useEffect } from "react";
 import {Link,useLoaderData} from 'react-router-dom'
 import "../css/pagelist.css"
 export async function loader(){
-  const {data}= await axios.get("/bookNow")
-  return data
+  try{
+    const {data}= await axios.get("/bookNow")
+    return data
+  } catch(err){
+    console.log(err)
+  }
+ return null
 }
 export default function Booking() {
   const [receipt, setReceipt] = useState([]);
@@ -14,10 +19,12 @@ export default function Booking() {
   useEffect(()=> {
     setReceipt(Ldata)
   },[Ldata])
-
+if (!Ldata){
+  return <h1>Some error Occoured during fetching data</h1>
+}
   return (
     <>
-      <h1>This is Booking section</h1>
+     
       {receipt.length > 0 &&
         receipt.map((rec) => (
           <div key={rec._id} className="sub-m-i">

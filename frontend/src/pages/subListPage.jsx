@@ -1,14 +1,21 @@
-import axios from "axios";
+
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import axios from "axios";
+
+
 export default function SubList() {
   const [data1, setData] = useState([]);
+  
+ 
   useEffect(() => {
-    axios
-      .get("/newPage")
-      .then(({ data }) => setData(data))
-      .catch((err) => console.log(err));
+    axios.get("/newPage")
+    .then(({data})=> setData(data))
+    
   }, []);
+  if(!data1){
+    return <div>Empty List </div>
+  }
   const display = data1.map((eh) => {
     return (
       <div key={eh._id}>

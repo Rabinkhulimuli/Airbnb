@@ -7,20 +7,38 @@ export default function Navbar(){
     return (
       <>
         <div className="nav-flex">
-          <div className="home-l">
-            <Link to="/" >
+          <div className="home-l-m">
+            <Link className="home-l" to="/" >
                 <img className="home-i" src="/house-add.svg" />
+                <h4 className="home-i-h4" >Mirrage</h4>
             </Link>
            
-            <h4 className="home-i-h4" >Mirrage</h4>
+           
           </div>
           <div className="o-search-c" >
-            <div className="search-c">Anywhere</div>
-            <div className="search-c">Any Week</div>
-            <div className="search-c">Add Guest</div>
-            <button className="home-i-b" >
+            <div className="search-c">
+              <p className="nav-m" >where</p>
+              <p className="nav-m-s" >Search destination</p>
+            </div>
+            <div className="search-c">
+              <p className="nav-m" >Check In</p>
+              <p className="nav-m-s" >Add Dates</p>
+            </div>
+            <div className="search-c">
+              <p className="nav-m" >Check Out</p>
+              <p className="nav-m-s" >Add Dates</p>
+            </div>
+            <div className="search-c">
+              <p className="nav-m" >Who</p>
+              <p className="nav-m-s" >Add Guest</p>
+            </div>
+            <div className="home-i-b-d">
+              <button className="home-i-b" >
               <img  className="home-i-i" src="/search-heart.svg" /> 
+              <p className="nav-m" >Search</p>
             </button>
+            </div>
+            
           </div>
           <div className="user-png-m" >
               <img className="user-png" src="/bar.png" />

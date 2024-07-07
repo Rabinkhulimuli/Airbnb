@@ -29,13 +29,7 @@ export default function ListPages() {
     );
   }
 
-  /* useEffect(() => {
-    axios
-      .get("/allPages")
-      .then(({ data }) => setDataList(data))
-      .catch((err) => console.log(err));
-  }, [id]);
- */
+
 const ldata=useLoaderData()
 useEffect(()=> {
   setDataList(ldata)

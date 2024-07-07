@@ -5,9 +5,14 @@ import axios from "axios";
 import PhotoUpload from "./photoUpload";
 import SubList from "../pages/subListPage";
 export async function loader({params}){
+  try{
   const {id}=params
   const {data}= await axios.get(`/page/${id}`)
   return data
+ }catch(err){
+    console.log(err)
+  }
+  return null
 }
 export default function Accomodation() {
   const { action, id } = useParams();
@@ -21,6 +26,7 @@ export default function Accomodation() {
   const [check, setCheck] = useState({ in: 0, outT: 0, guest: 0,price:100 });
   const [redirec, setRedirect] = useState(false);
   const data= useLoaderData()
+  
   useEffect(() => {
     if (id) {
        
@@ -135,7 +141,7 @@ export default function Accomodation() {
           >
             {" "}
           </div>
-          <SubList />
+          <SubList/>
         </div>
       )}
 

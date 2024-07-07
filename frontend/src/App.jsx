@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route,createBrowserRouter,createRoutesFromElements,RouterProvider } from "react-router-dom";
+import { Route,createBrowserRouter,createRoutesFromElements,RouterProvider } from "react-router-dom";
 import "./App.css";
 import Login from "./pages/loginPage";
 import Layout from "./layout";
@@ -38,35 +38,7 @@ const router =createBrowserRouter(createRoutesFromElements(
           
 
 ))
-/* function App() {
-  return (
-    <>
-      <BrowserRouter>
-        <UserContextProvider>
-          <Routes>
-            <Route element={<Layout />}>
-              <Route  path="/" element={<Home />} />
-              <Route path=":id" element={<ListPages /> }/>
-              
-              <Route path="login" element={<Login />} />
-              <Route path="register" element={<Register />} />
-              <Route path="account" element={<Account/>}>
-                <Route index element={<Profile/>}/>
-                <Route path="booking" element={<Booking/>}/>
-                <Route path="booking/:id" element={<Receipt/>} />
-                <Route path="places" element={<Accomodation/>}/>
-                <Route path="places/:action" element={<Accomodation/>}/>
-                <Route path=":id" element={<Accomodation/>} />
-              </Route>
-              <Route path="*" element={<div>This Page doesnt exist</div>} />
-            </Route>
-          </Routes>
-        </UserContextProvider>
-      </BrowserRouter>
-    </>
-  );
-}
- */
+
 function App(){
   return(
     <>

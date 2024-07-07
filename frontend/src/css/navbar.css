@@ -2,13 +2,39 @@
     box-sizing: border-box;
     
 }
+.nav-m{
+    font-size:1.1rem;
+    text-align: center;
+     color:whitesmoke;
+    margin:0;
+    padding-top:5px;
+}
+.nav-m-s{
+    color:whitesmoke;
+    opacity:0.6;
+    text-align: center;
+    margin:0 5px;
+    text-wrap: nowrap;
+    padding-bottom:5px;
+}
 .home-l{
+    margin-top:5px;
     display:flex;
     margin-right:auto;
+    justify-content: center;
+    align-items: center;
+    background-color:#AE0E36FF;
+    padding-left:5px;
+    border-radius: 12px;
+    color:whitesmoke;
+    font-weight: 900;
+    box-shadow: 2px 0px 2px 2px rgb(219, 203, 182);
 }
 .home-i{
     width:20px;
-    margin-top: 20px;
+    margin-top: 0px;
+    display: block;
+   
 }
 .home-i-h4{
     padding:0 10px;
@@ -17,19 +43,19 @@
     display:flex;
     font-weight: 900;
     font-size:1.02em;
-    height:50px;
+    box-shadow: 2px 0px 2px 2px rgba(233, 103, 205, 0.616);
+   border-radius: 12px;
 }
 .o-search-c{
     display:flex;
-    gap:15px;
-    padding:5px;
     border-radius:12px;
     justify-content: center;
     align-items: center;
    margin-top:5px;
     margin-left:auto;
     margin-right:auto;
-    height:45px;
+    padding:0;
+    background-color:#AE0E36FF;
     box-shadow: 2px 0px 2px 2px rgb(219, 203, 182);
 }
 .search-c:nth-child(2),.search-c:nth-child(3){
@@ -44,6 +70,10 @@
     margin:0;
     cursor: pointer;
 }
+.search-c:hover{
+    background-color: rgb(16, 133, 141);
+    border-radius:10px;
+}
 .home-i-i{
     width:25px;
     border-radius: 50%;
@@ -53,15 +83,24 @@
 }
 .home-i-b{
     margin:5px;
-    padding:0;
-    border-radius: 50%;
+   
+    
    border:none;
-   background-color: transparent;
+  background-color: transparent;
     cursor: pointer;
+   display:inline-flex;
    
 }
+.home-i-b-d{
+    padding:8px;
+}
+.home-i-b-d:hover{
+    background-color: rgb(16, 133, 141);
+    border-radius:10px;
+    
+}
 .user-png{
-    width:25px;
+    width:50px;
     margin:10px 5px;
     padding:0;
     display:block;
@@ -72,10 +111,11 @@
     margin-left:auto;
     padding:0;
     margin-top:5px;
-    height:45px;
+    min-height:45px;
     display:flex;
     flex-direction: row;
     gap:2px;
+    background-color:#AE0E36FF;
 }
 .user-profile{
     margin:10px 5px;
@@ -229,12 +269,12 @@ background-color: rgb(235, 215, 215);
 .g-places{
     width:220px;
     box-shadow: 2px 0px 1.75px 2px rgb(226, 42, 165);
-    background-color: rgba(240, 128, 128, 0.397);
+    background-color:#AE0E36FF;
     border-radius: 12px;
     margin:5px;
     padding:5px;
 }
-.g-places h2,h3 ,p{
+.g-places .g-places-i{
     margin:1px 5px;
     padding:1px;
    text-align: end;
